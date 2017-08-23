@@ -49,6 +49,7 @@ group :development do
 end
 
 gem 'slim-rails'
+gem "twitter-bootstrap-rails"
 
 group :test do
   gem 'rails-controller-testing'
