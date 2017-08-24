@@ -48,8 +48,12 @@ group :development do
   gem 'web-console', '>= 3.3.0'
 end
 
+gem 'slim-rails'
+gem "twitter-bootstrap-rails"
+
 group :test do
-  gem "shoulda"
+  gem 'rails-controller-testing'
+  gem 'shoulda'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
 end
 
