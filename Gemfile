@@ -49,11 +49,11 @@ group :development do
 end
 
 gem 'slim-rails'
-gem "twitter-bootstrap-rails"
+gem 'twitter-bootstrap-rails'
+gem 'devise'
 
 group :test do
   gem 'rails-controller-testing'
-  gem 'shoulda'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
 end
 
