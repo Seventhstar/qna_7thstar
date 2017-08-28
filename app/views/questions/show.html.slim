@@ -16,3 +16,11 @@ p
 = link_to t('.edit', :default => t("helpers.links.edit")), edit_question_path(@question), :class => 'btn btn-default'
 '
 = link_to t('.destroy', :default => t("helpers.links.destroy")), question_path(@question), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'
+
+h2 Answers
+.answers
+   = render 'answers/answers'
+ 
+- if user_signed_in?
+  .errors
+= render 'answers/form'

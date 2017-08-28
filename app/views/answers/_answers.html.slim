@@ -1,0 +1,20 @@
+- model_class = Answer
+table.table.table-striped
+  thead
+    tr
+      th= model_class.human_attribute_name(:body)
+      th= model_class.human_attribute_name(:created_at)
+      th=t '.actions', :default => t("helpers.actions")
+  tbody
+	- @question.answers.each do |answer|
+		- if answer.persisted?
+			tr
+		    td= answer.body
+		    td=l answer.created_at
+		    td
+				- if current_user && current_user.author_of?(answer)
+					= link_to '[x]', answer_path(answer), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
+
+
+        
+      
