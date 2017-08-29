@@ -13,20 +13,5 @@ RSpec.describe User, type: :model do
     let(:question) {create(:question, user: user)}
     let(:answer) {create(:answer, user: user)}
 
-    it 'should return true if user owns the question' do
-      expect(user.author_of?(question)).to eq true
-    end
-
-    it 'should return false if user does not own the question' do
-      expect(user2.author_of?(question)).to eq false
-    end
-
-    it 'should return true if user owns the answer' do
-      expect(user.author_of?(answer)).to eq true
-    end
-
-    it 'should return false if user does not own the answer' do
-      expect(user2.author_of?(answer)).to eq false
-    end
   end
 end

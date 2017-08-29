@@ -4,7 +4,7 @@ FactoryGirl.define do
   end
 
   factory :question do
-    title "MyString"
+    title
     body "MyText"
     user
   end
