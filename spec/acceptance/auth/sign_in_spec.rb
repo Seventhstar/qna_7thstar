@@ -17,12 +17,12 @@ feature 'User sign in', %q{
 
   scenario 'Non-registered user try to sign in' do
 
-    visit new_user_session_path
+    visit sign_in_path
     fill_in 'Email', with: 'wrong@test.info'
     fill_in 'Password', with: '123456'
     click_on 'Log in'
     expect(page).to have_content 'Invalid Email or password.'
-    expect(current_path).to eq new_user_session_path
+    expect(current_path).to eq sign_in_path
   end
 
 

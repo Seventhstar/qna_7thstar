@@ -19,12 +19,12 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
+      redirect_to question_path(@question)
     else
-       # p "@answer #{@answer}",@answer.errors
-      flash[:alert] = @answer.errors.full_messages
-      # render 'questions/show'
+      # p "@answer #{@answer}",@answer.errors
+      # flash[:alert] = @answer.errors.full_messages
+      render 'questions/show'
     end
-    redirect_to question_path(@question)
   end
 
   def destroy

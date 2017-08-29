@@ -18,8 +18,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user = current_user
+    @question = current_user.questions.new(question_params)
     if @question.save
       redirect_to @question
     else
@@ -31,7 +30,7 @@ class QuestionsController < ApplicationController
     if @question.update(question_params)
       redirect_to @question
     else
-    	# p @question.errors.full_messages
+      flash[:notice] = 'error.'
       render :edit
     end
   end

@@ -1,4 +1,5 @@
 require 'rails_helper'
+# require_relative '../acceptance/acceptance_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) {create(:question)}
@@ -56,9 +57,10 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'POST #create' do
     sign_in_user
+
     context 'with valid attributes' do
       it 'saves new question in DB' do
-        expect {post :create, params: {question: attributes_for(:question)}}.to change(Question, :count).to(1)
+        expect {post :create, params: {question: attributes_for(:question)}}.to change(@user.questions, :count).to(1)
       end
 
       it 'redirect to show view' do
@@ -80,14 +82,15 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    sign_in_user
     context 'valid attributes' do
       it 'assigns the requested question to @question' do
+        sign_in(question.user)
         patch :update, params: {id: question, question: attributes_for(:question)}
         expect(assigns(:question)).to eq question
       end
 
       it 'changes question attributes' do
+        sign_in(question.user)
         patch :update, params: {id: question, question: {title: 'new title', body: 'new body'}}
         question.reload #чтобы не кешировалось
         expect(question.title).to eq 'new title'
@@ -95,12 +98,14 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'redirects to the updated question' do
+        sign_in(question.user)
         patch :update, params: {id: question, question: attributes_for(:question)}
         expect(response).to redirect_to question
       end
     end
 
     context 'invalid attributes' do
+      sign_in_user
       before {patch :update, params: {id: question, question: {title: 'new title', body: ''}}}
       it 'does not change question attributes' do
         question.reload
@@ -115,26 +120,24 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    sign_in_user
-    before {question}
+    let!(:question) {create(:question)}
 
     context 'auth.user deletes his question' do
-      let(:question) { create(:question, user: @user) }
       it 'deletes question' do
-        expect{ delete :destroy, params: {id: question}}.to change(Question, :count).by(-1)
+        sign_in(question.user)
+        expect {delete :destroy, params: {id: question}}.to change(question.user.questions, :count).by(-1)
       end
-      
+
       it 'redirect to index' do
+        sign_in(question.user)
         delete :destroy, params: {id: question}
         expect(response).to redirect_to questions_path
       end
     end
 
     context 'auth.user tries to delete foreign question' do
-      let(:question) { create(:question) }
-
       it 'tries to delete question' do
-        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+        expect {delete :destroy, params: {id: question}}.to_not change(Question, :count)
       end
 
     end
