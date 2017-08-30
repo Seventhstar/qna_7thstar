@@ -110,7 +110,6 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not change question attributes' do
         question.reload
         expect(question.title).not_to eq 'new title'
-        # expect(question.body).to eq 'MyText'
       end
 
       it 're-renders edit view' do
@@ -138,7 +137,11 @@ RSpec.describe QuestionsController, type: :controller do
     context 'auth.user tries to delete foreign question' do
       sign_in_user
       it 'tries to delete question' do
-        expect {delete :destroy, params: {id: question}}.to_not change(Question, :count)
+        expect {delete :destroy, params: {id: question}}.to_not change(Question, :count)  
+      end
+
+      it 're-renders edit view' do
+        delete :destroy, params: {id: question}
         expect(response).to redirect_to questions_path
       end
 

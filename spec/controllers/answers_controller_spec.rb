@@ -49,11 +49,15 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'user tries to delete foreign answer' do
+      sign_in_user
       it "doesn't delete foreign answer" do
         expect {delete :destroy, params: {id: answer, question_id: answer.question_id}}.not_to change(Answer, :count)
-        expect(response).to redirect_to question_path(answer.question)
       end
 
+      it 'redirects to question' do
+        delete :destroy, params: {id: answer, question_id: answer.question_id}
+        expect(response).to redirect_to question_path(answer.question)
+      end
     end
   end
 end
