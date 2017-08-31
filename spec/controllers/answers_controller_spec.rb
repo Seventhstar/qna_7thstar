@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  sign_in_user
   let(:question) {create(:question)}
+  let(:answer) {create(:answer, user: @user)}
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -27,4 +29,37 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    let!(:answer) {create(:answer)}
+
+    context "user's answer" do
+      it 'deletes answer' do
+        sign_in(answer.user)
+        expect {delete :destroy, params: {question_id: answer.question_id, id: answer}}.to change(answer.user.answers, :count).by(-1)
+      end
+
+      it 'redirects to question' do
+        sign_in(answer.user)
+        question = answer.question
+        delete :destroy, params: {question_id: question, id: answer}
+        expect(response).to redirect_to question_path(answer.question)
+      end
+
+    end
+
+    context 'user tries to delete foreign answer' do
+      sign_in_user
+      it "doesn't delete foreign answer" do
+        expect {delete :destroy, params: {id: answer, question_id: answer.question_id}}.not_to change(Answer, :count)
+      end
+
+      it 'redirects to question' do
+        delete :destroy, params: {id: answer, question_id: answer.question_id}
+        expect(response).to redirect_to question_path(answer.question)
+      end
+    end
+  end
 end
+
+

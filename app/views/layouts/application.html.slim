@@ -25,6 +25,24 @@ html lang="en"
           .navbar-collapse.collapse.navbar-responsive-collapse
             ul.nav.navbar-nav
               li= link_to "Questions", "/questions"
+            ul.nav.navbar-nav.navbar-right  
+              - if user_signed_in?
+                = link_to destroy_user_session_path, method: :delete
+                  button.btn.btn-default.navbar-btn.btn-sm type="button navbar-right"
+                    span.glyphicon.glyphicon-log-out
+                    |  Sign out
+              - else
+                = link_to sign_in_path
+                  button.btn.btn-default.navbar-btn.btn-sm type="button navbar-right"
+                    span.glyphicon.glyphicon-log-in
+                    |  Sign in
+                = link_to new_user_registration_path
+                  button.btn.btn-default.navbar-btn.btn-sm type="button navbar-right"
+                    span.glyphicon.glyphicon-sign-up
+                    |  Sign up
+
+
+
 
     .container
       .row
