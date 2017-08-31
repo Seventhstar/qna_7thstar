@@ -7,6 +7,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    # @answer = @question.answer.build
   end
 
   def new

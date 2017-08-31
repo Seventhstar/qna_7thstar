@@ -8,7 +8,7 @@ feature 'User answers a question', %q{
   given(:user)     { create(:user) }
   given(:question) { create(:question) }
 
-  scenario 'Authenticated posts a valid answer' do
+  scenario 'Authenticated posts a valid answer', js: true do
     sign_in(user)
     visit question_path(question)
 
@@ -20,12 +20,12 @@ feature 'User answers a question', %q{
     end
   end
 
-  scenario 'Non-authenticated user answers a question' do
+  scenario 'Non-authenticated user answers a question', js: true do
     visit question_path(question)
     expect(page).not_to have_content 'Create Answer'
   end
 
-  scenario 'Authenticated user tries to post an empty answer' do
+  scenario 'Authenticated user tries to post an empty answer', js: true do
     sign_in(user)
     visit question_path(question)
 

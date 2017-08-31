@@ -1,4 +1,5 @@
-= form_for [@question, Answer.new] do |f|
+.errors
+= form_for [@question, Answer.new], remote: true do |f|
   .form-group
     = f.label :body, :class => 'control-label col-lg-2'
     .col-lg-10
