@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../../acceptance_helper'
 
 feature 'User can view a list of all questions', %q{
   In order to look around as a visitor
