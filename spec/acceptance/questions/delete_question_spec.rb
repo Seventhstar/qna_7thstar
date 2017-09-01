@@ -1,4 +1,4 @@
-require_relative '../acceptance_helper'
+require 'rails_helper'
 
 feature 'Delete Question', %q{
   In order to delete question from website

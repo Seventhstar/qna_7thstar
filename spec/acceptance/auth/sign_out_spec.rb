@@ -1,4 +1,4 @@
-require_relative '../acceptance_helper'
+require 'rails_helper'
 
 feature 'Authenticated User logs out', %q{
   In order to quit,

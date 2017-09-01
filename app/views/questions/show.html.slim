@@ -1,6 +1,6 @@
 - model_class = Question
 .page-header
-  h1= t '.title', :default => model_class.model_name.human.titleize
+  h1= t '.title', default: model_class.model_name.human.titleize
 
 p
   strong= model_class.human_attribute_name(:title) + ':'
@@ -20,9 +20,11 @@ p
 
 h2 Answers
 .answers
-  = render 'answers/answers'
+  ul
+    = render @question.answers
 
-- if @answer
-  = render 'shared/errors', item: @answer
+- if user_signed_in?
+  - if @answer
+    = render 'shared/errors', item: @answer
 
-= render 'answers/form'
+  = render 'answers/form'
