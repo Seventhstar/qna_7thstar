@@ -39,6 +39,8 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem "chromedriver-helper"
+  # gem 'capybara-webkit'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
 end
@@ -51,6 +53,7 @@ end
 gem 'slim-rails'
 gem 'twitter-bootstrap-rails'
 gem 'devise'
+gem 'jquery-rails'
 
 group :test do
   gem 'launchy'

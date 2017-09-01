@@ -1,0 +1,5 @@
+- if answer.persisted?
+  li
+    =answer.body
+    - if user_signed_in? && current_user.author_of?(answer)
+      = link_to '[x]', answer_path(answer), method: :delete,data: {confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?'))},class: 'btn btn-xs btn-danger'
