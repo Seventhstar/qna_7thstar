@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question, only: [:create,:new]
-  before_action :load_answer, only: [:edit, :update, :destroy]
+  before_action :load_answer, only: [:edit, :update, :destroy, :set_best]
 
   def edit
   end
@@ -30,7 +30,15 @@ class AnswersController < ApplicationController
       @answer.destroy
       flash[:notice] = 'Your answer was successfully deleted.'
     end
-    redirect_to question_path(@question)
+    # redirect_to question_path(@question)
+  end
+
+  def set_best
+    question = @answer.question
+    if current_user.author_of? question
+      @answer.set_best
+      render json: { message: "You've set the best answer" }
+    end
   end
 
   private

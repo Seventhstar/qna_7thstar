@@ -6,11 +6,15 @@ FactoryGirl.define do
 
   factory :answer do
     question
-    body "My answer"
+    body 
     user
+    best false
   end
 
   factory :invalid_answer, class: "Answer" do
-    bidy nil
+    body nil
+    question
+    user
+    best false
   end
 end

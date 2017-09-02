@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.configure do |config|
-  if RUBY_PLATFORM = "x64-mingw32"
+  if RUBY_PLATFORM == "x64-mingw32"
     Capybara.javascript_driver = :selenium_chrome
   else
     Capybara.javascript_driver = :webkit

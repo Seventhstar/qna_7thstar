@@ -46,33 +46,52 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer) {create(:answer)}
+    let!(:answer) {create(:answer)} 
 
     context "user's answer" do
-      it 'deletes answer' do
+      it 'deletes owned answer' do
         sign_in(answer.user)
-        expect {delete :destroy, params: {question_id: answer.question_id, id: answer}}.to change(answer.user.answers, :count).by(-1)
+        expect { delete :destroy, params: { id: answer, format: :js } }.to change(answer.user.answers, :count).by(-1)
       end
 
-      it 'redirects to question' do
+      it 'removing answer from view' do
         sign_in(answer.user)
         question = answer.question
-        delete :destroy, params: {question_id: question, id: answer}
-        expect(response).to redirect_to question_path(answer.question)
+        delete :destroy, params: {id: answer, format: :js}
+        expect(response).to_not have_content answer.body
       end
-
     end
 
     context 'user tries to delete foreign answer' do
       sign_in_user
       it "doesn't delete foreign answer" do
-        expect {delete :destroy, params: {id: answer, question_id: answer.question_id}}.not_to change(Answer, :count)
+        expect {delete :destroy, params: {id: answer, format: :js}}.not_to change(Answer, :count)
+      end
+    end
+  end
+
+  describe 'PATCH #set_best' do
+    context 'owner of the question' do
+      it 'sets best answer' do
+        sign_in(answer.question.user)
+        patch :set_best, params: { id: answer, format: :js }
+        answer.reload
+        expect(answer.best?).to be true
       end
 
-      it 'redirects to question' do
-        delete :destroy, params: {id: answer, question_id: answer.question_id}
-        expect(response).to redirect_to question_path(answer.question)
+      it 'changes best answer' do
+        other_answer = create(:answer, question: answer.question, best: true)
+        sign_in(answer.question.user)
+        patch :set_best, params: { id: answer, format: :js }
+        other_answer.reload
+        expect(other_answer.best?).to be false
       end
+    end
+
+    it "doesn't set best answer to a question belonging to somebody else" do
+      patch :set_best, params: { id: answer, format: :js }
+      answer.reload
+      expect(answer.best?).to be false
     end
   end
 end
