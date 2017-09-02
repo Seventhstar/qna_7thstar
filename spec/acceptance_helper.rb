@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 RSpec.configure do |config|
-  # Capybara.javascript_driver = :selenium_chrome
-  Capybara.javascript_driver = :webkit
+  if RUBY_PLATFORM = "x64-mingw32"
+    Capybara.javascript_driver = :selenium_chrome
+  else
+    Capybara.javascript_driver = :webkit
+  end
 
   config.include AcceptanceHelper, type: :feature
 
