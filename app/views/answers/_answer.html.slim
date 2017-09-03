@@ -18,6 +18,6 @@
 
     -if current_user.try :author_of?, answer.question
       '
-      = link_to "set best", set_best_answer_path(answer), class: "set-best-answer btn btn-xs btn-info", remote: true, method: :patch, data: { answer_id: answer.id }, style: 'display:'+(answer.best ? 'none' : '')+ ';'
+      = link_to "set best", set_best_answer_path(answer), remote: true, method: :patch, class: "set-best-answer btn btn-xs btn-info", style: 'display:'+(answer.best ? 'none' : '')+ ';'
 
       

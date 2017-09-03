@@ -30,15 +30,17 @@ class AnswersController < ApplicationController
       @answer.destroy
       flash[:notice] = 'Your answer was successfully deleted.'
     end
-    # redirect_to question_path(@question)
   end
 
   def set_best
     question = @answer.question
     if current_user.author_of? question
       @answer.set_best
-      render json: { message: "You've set the best answer" }
+      @message = "You've set the best answer"
+      
+      # render json: { message: "You've set the best answer" }
     end
+    
   end
 
   private
