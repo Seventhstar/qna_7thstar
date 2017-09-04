@@ -3,11 +3,11 @@
   h1= t '.title', default: model_class.model_name.human.titleize
 .question
   p
-    strong= model_class.human_attribute_name(:title) + ':'
+    strong= "#{model_class.human_attribute_name(:title)}:"
     br
     = @question.title
   p
-    strong= model_class.human_attribute_name(:body) + ':'
+    strong= "#{model_class.human_attribute_name(:body)}:"
     br
     = @question.body
 

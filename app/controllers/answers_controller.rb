@@ -37,8 +37,6 @@ class AnswersController < ApplicationController
     if current_user.author_of? question
       @answer.set_best
       @message = "You've set the best answer"
-      
-      # render json: { message: "You've set the best answer" }
     end
     
   end
