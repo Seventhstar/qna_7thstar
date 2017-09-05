@@ -1,3 +1,4 @@
 $('input#answer_body').val('');
-$('.answers ul').append("<%= j render @answer %>");
+$('.answers>ul').append("<%= j render @answer %>");
 $('.errors').html("<%= j render 'shared/errors', item: @answer %>");
+$('.remove_fields').click();

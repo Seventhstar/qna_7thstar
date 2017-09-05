@@ -14,3 +14,6 @@
       = f.submit nil,class: 'btn btn-primary'
       '
       = link_to t('.cancel',default: t("helpers.links.cancel")), questions_path,class: 'btn'
+  .question_new_attachment    
+    = render 'shared/attachment_form', f: f
+   

@@ -57,6 +57,9 @@ gem 'slim-rails'
 gem 'twitter-bootstrap-rails'
 gem 'devise'
 gem 'jquery-rails'
+gem 'carrierwave'
+gem 'remotipart'
+gem 'cocoon'
 
 group :test do
   gem 'launchy'

@@ -7,6 +7,8 @@ RSpec.describe Answer, type: :model do
   it { should have_db_index(:question_id) }
   it { should have_db_index(:user_id) }
 
+  it { should have_many(:attachments).dependent(:destroy) }
+  it { should accept_nested_attributes_for(:attachments).allow_destroy(true) }
 
   describe 'set best to instance' do
     let!(:question) { create(:question) }

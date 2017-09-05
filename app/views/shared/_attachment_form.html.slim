@@ -1,0 +1,6 @@
+  p Attachments:
+  .attachments
+    = f.fields_for :attachments do |a| 
+      = render 'shared/attachment_fields', f: a
+  .links
+    = link_to_add_association 'add file', f, :attachments

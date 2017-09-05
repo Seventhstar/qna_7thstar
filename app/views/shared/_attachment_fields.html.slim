@@ -1,0 +1,8 @@
+.nested-fields.well.well-compact
+  .form-inline
+    = f.label :file
+    '
+    = f.object.file
+    = f.file_field :file
+    = link_to_remove_association f, data: {:confirm => 'do you really want to do this?'}, class: 'btn btn-default btn-xs' do
+      .glyphicon.glyphicon-remove

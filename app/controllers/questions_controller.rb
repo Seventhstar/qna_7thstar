@@ -7,15 +7,15 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    # @answer = @question.answer.build
   end
 
   def new
     @question = Question.new
+    # @question.attachments.build
   end
 
   def edit
-
+    # @question.attachments.build
   end
 
   def create
@@ -50,6 +50,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:body, :title)
+    params.require(:question).permit(:body, :title, attachments_attributes: [:id, :file, :_destroy])
   end
 end

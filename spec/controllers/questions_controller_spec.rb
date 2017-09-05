@@ -1,5 +1,4 @@
 require 'rails_helper'
-# require_relative '../acceptance/acceptance_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) {create(:question)}

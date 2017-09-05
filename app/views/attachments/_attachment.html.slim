@@ -1,0 +1,5 @@
+li id="attachment_#{attachment.id}"
+  = link_to attachment.file.identifier, attachment.file.url
+  -if current_user.try(:author_of?, item)
+    '
+    =link_to 'remove file', attachment_path(attachment), method: :delete, remote: true, data: {confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?'))}, class: "btn btn-xs btn-danger"

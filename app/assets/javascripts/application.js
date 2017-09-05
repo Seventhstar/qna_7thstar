@@ -13,6 +13,8 @@
 //= require jquery
 //= require twitter/bootstrap
 //= require rails-ujs
+//= require jquery.remotipart
+//= require cocoon
 //= require turbolinks
 //= require_tree .
 

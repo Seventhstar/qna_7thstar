@@ -4,3 +4,5 @@
   Static version of css will use Glyphicons sprites by default
   =require twitter-bootstrap-static/sprites
 */
+
+li.well, .well li {list-style: none;}
