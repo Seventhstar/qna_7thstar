@@ -2,9 +2,6 @@ class AttachmentsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_attachment
 
-  def index
-  end
-
   def destroy
     @attachable = @attachment.attachable
     if current_user.author_of?(@attachable)
