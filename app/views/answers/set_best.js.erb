@@ -1,7 +1,7 @@
 var li_answer_id = 'li#answer_' + <%= @answer.id %>;
 $('.answers p.notice').html("<%= j @message %>");
-$('.answers p').removeClass('glyphicon glyphicon-ok');
-$(li_answer_id + ' p').addClass('glyphicon glyphicon-ok');
+$('.answers p.glyphicon').removeClass('glyphicon-ok');
+$(li_answer_id + ' p.glyphicon').addClass('glyphicon-ok');
 $('.set-best-answer').show();
 $(li_answer_id + ' a').last().hide();
 $(li_answer_id).parent().prepend($(li_answer_id));

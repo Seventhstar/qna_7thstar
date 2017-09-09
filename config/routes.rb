@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'votes/create'
+
+  get 'votes/reset'
+
   devise_scope :user do
     get 'sign_up', :to => 'devise/registrations#new'
     get 'sign_in', :to => 'devise/sessions#new'
@@ -15,5 +19,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :votes, only: [:create] do
+    delete :reset, on: :collection
+  end
+
   root to: 'questions#index'
+
 end

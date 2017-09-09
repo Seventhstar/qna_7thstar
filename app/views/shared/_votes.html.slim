@@ -1,0 +1,9 @@
+    - if current_user && !current_user.try(:author_of?,obj)
+      - visible = !obj.has_vote_by?(current_user)
+      - name = obj.class.name
+      =< vote_link(obj.id,'Up',1,name,visible)
+      =< vote_link(obj.id,'Reset',nil,name,!visible)
+      =< vote_link(obj.id,'Down',-1,name,visible)
+    p
+      | Rate:
+      span.rate=< obj.rating

@@ -3,25 +3,24 @@
     - if answer.best?
       p.glyphicon.glyphicon-ok 
     - else
-      p
+      p.glyphicon
     '
     = answer.body
     - if current_user.try(:author_of?,answer)
-      '
-      = link_to 'edit', '', class: 'edit-answer-link btn btn-xs btn-default', data: { answer_id: answer.id }
-      '
-      = link_to '[x]', answer_path(answer), method: :delete, remote: true, data: {confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?'))}, class: "btn btn-xs btn-danger"
+      
+      =< link_to 'edit', '', class: 'edit-answer-link btn btn-xs btn-default', data: { answer_id: answer.id }
+      =< link_to '[x]', answer_path(answer), method: :delete, remote: true, data: {confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?'))}, class: "btn btn-xs btn-danger"
       = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}", style: "display: none;"} do |f|
         = f.label :body, "Answer"
         = f.text_area :body
         = f.submit 'Save'
+    = render 'shared/votes', obj: answer 
 
     -if current_user.try :author_of?, answer.question
-      '
-      = link_to "set best", set_best_answer_path(answer), remote: true, method: :patch, class: "set-best-answer btn btn-xs btn-info", style: "display: #{'none' if answer.best};"
+      
+      =< link_to "set best", set_best_answer_path(answer), remote: true, method: :patch, class: "set-best-answer btn btn-xs btn-info", style: "display: #{'none' if answer.best};"
 
     - if answer.attachments.count > 0
-      '
       h5 Answer attachments:
       ul
         = render answer.attachments, item: answer
