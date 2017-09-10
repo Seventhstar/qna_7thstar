@@ -11,9 +11,9 @@
 // about supported directives.
 //
 //= require jquery
-//= require twitter/bootstrap
-//= require rails-ujs
+//= require jquery_ujs
 //= require jquery.remotipart
+//= require twitter/bootstrap
 //= require cocoon
 //= require turbolinks
 //= require_tree .

@@ -28,7 +28,7 @@ class AnswersController < ApplicationController
     @question = @answer.question
     if current_user.author_of? @answer
       @answer.destroy
-      flash[:notice] = 'Your answer was successfully deleted.'
+      render json: { message: 'Your answer was successfully deleted.' }
     end
   end
 
@@ -36,7 +36,9 @@ class AnswersController < ApplicationController
     question = @answer.question
     if current_user.author_of? question
       @answer.set_best
-      @message = "You've set the best answer"
+      render json: { message: "You've set the best answer" }
+    else
+      render json: { message: "You're not allowed to set the best answer for this question" }
     end
     
   end
