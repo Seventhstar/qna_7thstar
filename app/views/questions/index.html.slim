@@ -1,6 +1,7 @@
 - model_class = Question
-.page-header
+.page-header.questions
   h1=t '.title', default: model_class.model_name.human.pluralize.titleize
+  .errors
 table.table.table-striped
   thead
     tr

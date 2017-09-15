@@ -1,10 +1,10 @@
 module VotesHelper
 
-  def vote_link(id, text, val, type, visible )
-    data = { votable_id: id, votable_type: type }
-    data[:value] = val if !val.nil?
+  def vote_link(obj, text, val, visible )
+    data = { votable_id: obj.id, votable_type: obj.class.name, remote: true, method: :post }
     cls = val.nil? ? 'reset-vote-link' : 'vote-link'
-    link_to text, '#', class: cls, data: data , style: "display: #{ visible ? '' : 'none' }"
+    lnk = val.nil? ? :reset : "vote_#{text.downcase}"
+    link_to text, polymorphic_path([lnk,obj]), class: cls, style: "display: #{ visible ? '' : 'none' }", data: data
   end    
 
 end

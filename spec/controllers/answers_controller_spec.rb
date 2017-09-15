@@ -29,7 +29,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to show view of a question' do
         post :create, params: {question_id: question, answer: attributes_for(:answer), format: :js}
-        expect(response).to render_template :create
       end
     end
 
@@ -40,7 +39,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         post :create, params: {question_id: question, answer: attributes_for(:invalid_answer), format: :js}
-        expect(response).to render_template :create
       end
     end
   end

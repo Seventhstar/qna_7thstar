@@ -16,5 +16,6 @@
 //= require twitter/bootstrap
 //= require cocoon
 //= require turbolinks
+//= require mustache
 //= require_tree .
 

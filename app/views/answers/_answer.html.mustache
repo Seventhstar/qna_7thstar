@@ -1,0 +1,35 @@
+<li class="well well-compact" id="answer_{{id}}">
+    <p class="glyphicon"></p>  
+  {{body}}
+
+   <a class="edit-answer-link btn btn-xs btn-default" data-answer-id="{{id}}" href="">edit</a> 
+   <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" data-remote="true" rel="nofollow" data-method="delete" href="/answers/{{id}}">[x]</a>
+   <form id="edit-answer-{{id}}" style="display: none;" class="edit_answer" action="/answers/{{id}}" accept-charset="UTF-8" data-remote="true" method="post">
+    <input name="utf8" type="hidden" value="✓">
+    <input type="hidden" name="_method" value="patch">
+    <label for="answer_body">Answer</label>
+    <textarea name="answer[body]" id="answer_body">{{body}}</textarea>
+    <input type="submit" name="commit" value="Save" data-disable-with="Save">
+  </form>
+
+<p>Rate: 
+  <span class="rate">0</span>
+</p> 
+<a class="set-best-answer btn btn-xs btn-info" style="display: ;" data-answer-id="{{id}}" href="/answers/{{id}}/set_best">set best</a>
+
+{{# attachments.length }}
+<h5> Answer attachments: </h5>
+  <ul>
+    {{# attachments}}
+    <li id="attachment_{{id}}">
+      <a href="/uploads/attachment/file/{{id}}/{{filename}}">{{filename}}</a> 
+      <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" data-remote="true" rel="nofollow" data-method="delete" href="/attachments/{{id}}">remove file</a>
+    </li>
+    {{/attachments}}
+  </ul>
+{{/ attachments.length }}
+
+</li>
+    
+      
+

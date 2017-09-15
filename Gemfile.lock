@@ -123,6 +123,8 @@ GEM
     mini_portile2 (2.2.0)
     minitest (5.10.3)
     multi_json (1.12.2)
+    mustache-js-rails (0.0.7)
+      railties (>= 3.1)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
@@ -267,6 +269,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   launchy
+  mustache-js-rails
   pg (~> 0.18)
   puma (~> 3.7)
   rails (~> 5.1.3)

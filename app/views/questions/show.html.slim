@@ -28,10 +28,12 @@ h2 Answers
 .answers
  p.notice
   ul
+    script#answer_template type="text/html" 
+      = render "answers/answer.html.mustache"
     = render @question.answers
 
-- if user_signed_in?
-  - if @answer
-    = render 'shared/errors', item: @answer
+  - if user_signed_in?
+    - if @answer
+      = render 'shared/errors', item: @answer
 
   = render 'answers/form'

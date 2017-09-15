@@ -2,37 +2,41 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-votes = (e, el,type,url, show_cls, hide_cls)->
-  e.preventDefault()
-  value = el.data('value')
+votes = (el, show_cls, hide_cls, rating) ->
   votable_id = el.data('votableId')
   votable_type = el.data('votableType')
-  $.ajax
-    type: type
-    url: url
-    data:
-      value: value
-      votable_id: votable_id
-      votable_type: votable_type
-    success: (rating) ->
-      vol_type = '#' + votable_type.toLowerCase() + '_' + votable_id
-      $(vol_type + show_cls).show()
-      $(vol_type + hide_cls).hide()
-      $(vol_type + ' .rate').html(rating)
-      $('div.errors').html()
-      return
-    error: (xhr) ->
-      $('div.errors').html('Error: ' + xhr.status + ' ' + xhr.statusText)
+  vol_type = '#' + votable_type.toLowerCase() + '_' + votable_id
+  $(vol_type + show_cls).show()
+  $(vol_type + hide_cls).hide()
+  $(vol_type + ' .rate').html(rating)
+  $('div.errors').html()
   return
 
+vote_error = (el, data) ->
+  result = $.parseJSON(data.responseText)
+  votable_type = el.data('votableType').toLowerCase()
+  $('.' + votable_type + 's .errors').append('<p>' + result.error + '</p>')
+  return
+  
+
 ready_votes = ->
-  $(document).off 'click', '.vote-link'
-  $(document).on 'click', '.vote-link', (e) ->
-    votes e, $(this), "POST","/votes", ' .reset-vote-link', ' .vote-link'
+  $(document).off 'ajax:success', '.vote-link'
+  .off 'ajax:error', '.vote-link'
+  $(document).on 'ajax:success', '.vote-link', (e, data, status, xhr) ->
+    votes $(this), ' .reset-vote-link', ' .vote-link', data.rating
     return
-  $(document).off 'click', '.reset-vote-link'  
-  $(document).on 'click', '.reset-vote-link', (e) ->
-    votes e, $(this), "DELETE", "/votes/reset", ' .vote-link',' .reset-vote-link'
+  .on 'ajax:error', '.vote-link', (e, data, status, xhr) ->
+    vote_error $(this),data
     return
+
+  $(document).off 'ajax:success', '.reset-vote-link'
+  .off 'ajax:error', '.reset-vote-link'
+  $(document).on 'ajax:success', '.reset-vote-link', (e, data, status, xhr) ->
+    votes $(this), ' .vote-link',' .reset-vote-link', data.rating
+    return
+  .on 'ajax:error', '.reset-vote-link', (e, data, status, xhr) ->
+    vote_error $(this),data
+    return
+  return
 
 $(document).on 'turbolinks:load', ready_votes

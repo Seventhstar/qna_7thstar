@@ -1,16 +1,15 @@
 ready_answer = ->
-  $('.answers').on 'click', '.delete-answer', (e) ->
-    e.preventDefault()
-    if confirm "Are you sure?"
-      answer_id = $(this).data('answerId')
-      $.ajax
-        url: '/answers/'+answer_id
-        dataType: 'json'
-        type: 'DELETE'
-        success: (data) ->
-          $('.answers li#answer_'+answer_id).remove();
-          $('.answers p.notice').html(data.message)
-          return
+  $('form.new_answer').on 'ajax:success',(e, data, status, xhr) ->
+    answer = $.parseJSON(xhr.responseText)
+    $('.answers>ul').append Mustache.to_html($('#answer_template').html(), answer)
+    $('input#answer_body').val('')
+    $('.remove_fields').click()
+    return
+  .on 'ajax:error', (e, xhr, status, error) ->
+    errors = $.parseJSON(xhr.responseText)
+    $.each errors, (index, value) ->
+      $('.answers .errors').append('<p>'+value+'</p>')
+      return
     return
 
   $('.answers').on 'click', '.edit-answer-link', (e) ->
@@ -38,7 +37,7 @@ ready_answer = ->
         $('.answers p.glyphicon').removeClass('glyphicon-ok');
         $(li_answer_id + ' p.glyphicon').addClass('glyphicon-ok');
         $('.set-best-answer').show();
-        $(li_answer_id + ' a').last().hide();
+        $(li_answer_id + ' a.set-best-answer').hide();
         $(li_answer_id).parent().prepend($(li_answer_id))
         return
       error: ->
@@ -46,7 +45,6 @@ ready_answer = ->
         return
     return
   return
-
 
 $(document).on 'turbolinks:load', ready_answer
 

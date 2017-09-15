@@ -1,5 +1,5 @@
 .errors
-= form_for [@question, Answer.new], remote: true do |f|
+= form_for [@question, Answer.new], remote: true, data: { type: :json } do |f|
   .form-group
     = f.label :body, class: 'control-label col-lg-2'
     .col-lg-10

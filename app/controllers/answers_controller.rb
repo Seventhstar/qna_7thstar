@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  include Votes
   before_action :authenticate_user!
   before_action :load_question, only: [:create,:new]
   before_action :load_answer, only: [:edit, :update, :destroy, :set_best]
@@ -11,11 +12,20 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
+    # respond_to :js
+    # respond_with(@answer = @question.answers.create(answer_params))
+    @answer = @question.answers.build(answer_params)
     @answer.user = current_user
-    if @answer.save
-    else
+    respond_to do |format|
+      if @answer.save
+        format.html { render partial: @answer , layout: false }
+        format.js { render json: @answer, include: { attachments: { methods: :filename } }}
+      else
+        format.html { render text: @answer.errors.full_messages.join("\n"), status: :unprocessable_entity }
+        format.js { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
     end
+
   end
 
   def update
@@ -28,7 +38,7 @@ class AnswersController < ApplicationController
     @question = @answer.question
     if current_user.author_of? @answer
       @answer.destroy
-      render json: { message: 'Your answer was successfully deleted.' }
+      # render json: { message: 'Your answer was successfully deleted.' }
     end
   end
 
