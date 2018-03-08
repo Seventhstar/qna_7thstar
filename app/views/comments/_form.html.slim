@@ -1,0 +1,19 @@
+- id = [commentable.class, commentable.id].join('_')
+=< link_to 'add comment', '', class: 'add-comment btn btn-xs btn-default', data: { commentable_id: id }
+= form_for [commentable, Comment.new], remote: true, data: { type: :json }, \
+            html: { id: id, style: "display: none;"} do |f|
+  - if @comment.errors.any?
+    .error_messages
+      h2 Please correct the following errors.
+      ul
+        - @comment.errors.full_messages.each do |msg|
+          li= msg
+  .form-group
+    .field
+      label.control-label.col-lg-2 for="question_title" New comment
+      .col-lg-10
+        = f.text_area :body, rows: 5, class: 'form-control'
+        = f.hidden_field :type, value: commentable.class.name
+  .actions
+    .col-lg-offset-2.col-lg-10
+      = f.submit nil, class: 'btn btn-primary'

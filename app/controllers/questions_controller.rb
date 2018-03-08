@@ -3,11 +3,15 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
 
+  after_action :post_question, only: :create
+
   def index
     @questions = Question.all
   end
 
   def show
+    @commentable = @question
+    @comment = Comment.new
   end
 
   def new
@@ -16,6 +20,7 @@ class QuestionsController < ApplicationController
   end
 
   def edit
+
     # @question.attachments.build
   end
 
@@ -46,11 +51,18 @@ class QuestionsController < ApplicationController
   end
 
   private
-  def load_question
-    @question = Question.find(params[:id])
-  end
+    def load_question
+      @question = Question.find(params[:id])
+    end
 
-  def question_params
-    params.require(:question).permit(:body, :title, attachments_attributes: [:id, :file, :_destroy])
+    def question_params
+      params.require(:question).permit(:body, :title, attachments_attributes: [:id, :file, :_destroy])
+    end
+
+    def post_question
+      return if @question.errors.any?
+      ActionCable.server.broadcast(
+        'questions', 
+        @question.to_json(include: [:attachments, :user], methods: :rating))
   end
 end

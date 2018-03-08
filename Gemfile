@@ -44,9 +44,14 @@ group :development, :test do
   else
     gem 'capybara-webkit'
   end
+gem "better_errors"
+gem 'byebug'
+gem "binding_of_caller"
 gem 'rspec-rails'
 gem 'factory_girl_rails'
 end
+
+
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
@@ -61,6 +66,10 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
 gem 'mustache-js-rails'
+
+gem 'skim'
+gem 'gon'
+
 
 group :test do
   gem 'launchy'

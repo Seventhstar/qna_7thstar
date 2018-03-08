@@ -1,0 +1,3 @@
+$('input#comment_body').val('');
+$('.question_comments>ul').append("<%= j render @comment %>");
+$('.errors').html("<%= j render 'shared/errors', item: @comment %>");

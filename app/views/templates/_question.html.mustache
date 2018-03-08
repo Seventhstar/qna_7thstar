@@ -1,0 +1,16 @@
+<tr id="question_{{id}}">
+  <td>
+    <a href="/questions/{{id}}">{{id}}</a>
+  </td>
+  <td>{{title}}</td>
+  <td>{{body}}</td>
+  <td>{{created_at}}</td>
+  <td>
+    <a class="btn btn-default btn-xs" href="/questions/{{id}}">
+        <span class="translation_missing" title="translation missing: en.helpers.links.show">Show</span>
+    </a> 
+    <a class="vote-link" style="display: inline;" data-votable-id="{{id}}" data-votable-type="Question" data-remote="true" data-method="post" href="/questions/{{id}}/vote_up">Up</a> 
+    <a class="reset-vote-link" style="display: none;" data-votable-id="{{id}}" data-votable-type="Question" data-remote="true" data-method="post" href="/questions/{{id}}/reset">Reset</a> 
+    <a class="vote-link" style="display: inline;" data-votable-id="{{id}}" data-votable-type="Question" data-remote="true" data-method="post" href="/questions/{{id}}/vote_down">Down</a>
+    <p>Rate: <span class="rate">0</span></p></td>
+</tr>

@@ -24,12 +24,21 @@ h4 Question attachments:
   ul
     = render @question.attachments, item: @question
 
+h3 Comments
+.container.question_comments
+  ul class="Question_#{@question.id}"
+    script#comment_template type="text/html" 
+      = render "templates/comment.html.mustache"
+    = render @question.comments.order(:created_at), item: @question
+
+= render 'comments/form', commentable: @question
+
 h2 Answers
 .answers
  p.notice
   ul
     script#answer_template type="text/html" 
-      = render "answers/answer.html.mustache"
+      = render "templates/answer.html.mustache"
     = render @question.answers
 
   - if user_signed_in?
