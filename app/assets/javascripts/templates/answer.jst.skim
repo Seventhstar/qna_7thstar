@@ -2,7 +2,8 @@
     p.glyphicon
     '
     = @body
-    - if gon.current_user.id && @user_id == gon.current_user.id
+    - cur_user = gon['current_user']
+    - if cur_user && cur_user.id && @user_id == cur_user.id
       '
       a.edit-answer-link.btn.btn-xs.btn-default data-answer-id="#{@id}" href="#" edit
       '      
@@ -14,7 +15,7 @@
         label for="answer_body_#{@id}" Answer
         textarea name="answer[body]" id="answer_body_#{@id}" =@body
         input type="submit" name="commit" value="Save" data-disable-with="Save"
-    - if @user_id != gon.current_user.id
+    - if cur_user && @user_id != cur_user.id
       '
       a.vote-link data-value="1" data-votable-id="#{@id}" data-votable-type="Answer" data-remote="true" data-method="post" href="/answers/#{@id}/vote_up" Up
       '
@@ -25,7 +26,7 @@
       ="Rate:"
       span.rate 0
 
-    - if gon.current_user.id == gon.question_author_id
+    - if cur_user && cur_user.id == gon.question_author_id
       a.set-best-answer.btn.btn-xs.btn-info href="/answers/#{@id}/set_best" data-answer-id="#{@id}" set best
     
     - if @attachments.length > 0
@@ -34,7 +35,7 @@
         - $.each @attachments, (index, a)=>
           li id="attachment_#{a.id}"
             a href="#{a.file.url}" = a.file.url
-            - if gon.current_user.id && @user_id == gon.current_user.id
+            - if cur_user && cur_user.id && @user_id == cur_user.id
               '
               a.btn.btn-xs.btn-danger data-confirm="Are you sure?" data-remote="true" data-method="delete" data-attachment-id="#{a.id}" href="/attachments/#{a.id}" remove file
 
@@ -54,10 +55,3 @@
         .actions
           .col-lg-offset-2.col-lg-10
             input.btn.btn-primary type="submit" name="commit" value="Create Comment" data-disable-with="Create Comment"
-
-
-
-
-
-    /     = render answer.comments.order(:created_at), item: answer
-    /   = render 'comments/form', commentable: answer

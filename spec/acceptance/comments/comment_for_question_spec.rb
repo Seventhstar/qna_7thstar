@@ -51,4 +51,35 @@ feature 'Comment on question', %q{
     end
   end
 
+  context 'action cable: 2 sessions' do
+    scenario "add comment to a question on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        within '.question_comments' do
+          click_on 'add comment'
+          fill_in 'comment_body', with: 'Question comment'
+          click_on 'Create Comment'
+
+          expect(page).to have_content 'Question comment'
+          expect(page).not_to have_content "Body can't be blank"
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.question_comments' do
+          expect(page).to have_content 'Question comment'
+        end
+      end
+    end
+  end
+
+
 end

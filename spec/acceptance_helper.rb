@@ -6,6 +6,7 @@ RSpec.configure do |config|
   else
     Capybara.javascript_driver = :webkit
   end
+  Capybara.server = :puma
 
   config.include AcceptanceHelper, type: :feature
 

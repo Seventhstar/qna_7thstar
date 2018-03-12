@@ -2,7 +2,8 @@ li.comment id="comment_#{@id}"
   .panel.panel-default
     .panel-body 
       p=@body
-      - if gon.current_user.id == @user_id
+      - cur_user = gon['current_user']
+      - if cur_user && cur_user.id == @user_id
         '
         a.edit-comment-link.btn.btn-xs.btn-default data-comment-id="#{@id}" href="" edit 
         '
