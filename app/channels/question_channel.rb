@@ -1,12 +1,10 @@
 class QuestionChannel < ApplicationCable::Channel
   def subscribed
+    stop_all_streams
     stream_from "questions"
   end
 
   def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
-  end
-
-  def add
+    stop_all_streams
   end
 end

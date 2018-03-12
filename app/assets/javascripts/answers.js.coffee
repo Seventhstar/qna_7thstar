@@ -1,7 +1,7 @@
 ready_answer = ->
   $('form.new_answer').on 'ajax:success',(e, data, status, xhr) ->
     answer = $.parseJSON(xhr.responseText)
-    $('.answers>ul').append Mustache.to_html($('#answer_template').html(), answer)
+    $('.answers>ul').append JST['templates/answer'](answer)
     $('input#answer_body').val('')
     $('.remove_fields').click()
     return

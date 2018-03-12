@@ -12,6 +12,8 @@ class QuestionsController < ApplicationController
   def show
     @commentable = @question
     @comment = Comment.new
+    gon.question_id = @question.id
+    gon.question_author_id = @question.user_id
   end
 
   def new
@@ -64,5 +66,5 @@ class QuestionsController < ApplicationController
       ActionCable.server.broadcast(
         'questions', 
         @question.to_json(include: [:attachments, :user], methods: :rating))
-  end
+    end
 end

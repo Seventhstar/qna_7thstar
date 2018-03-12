@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'comments/index'
-  get 'comments/new'
-
   devise_scope :user do
     get 'sign_up', :to => 'devise/registrations#new'
     get 'sign_in', :to => 'devise/sessions#new'
@@ -19,12 +16,14 @@ Rails.application.routes.draw do
 
   resources :attachments, only: [:destroy,:index]
 
+  resources :comments, only: [:update, :destroy] 
+
   devise_for :user
   resources :questions, concerns: [:votes] do
-    resources :comments
+    resources :comments, only: [:create]
     resources :answers, shallow: true, concerns: [:votes] do
+      resources :comments, only: [:create]
       patch :set_best, on: :member
-      resources :comments
     end
   end
 

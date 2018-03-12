@@ -1,8 +1,9 @@
-li.comment id="comment_#{comment.id}"
-  .panel.panel-default
-    .panel-body
-      p = comment.body
-      - if current_user.try(:author_of?, comment)  
-        =< link_to 'edit', '', class: 'edit-comment-link btn btn-xs btn-default', data: { comment_id: comment.id }
-        =< link_to '[x]', comment_path(comment), method: :delete, remote: true, data: {confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?'))}, class: "btn btn-xs btn-danger"
-        = render 'comments/edit', comment: comment
+- if current_user
+  li.comment id="comment_#{comment.id}"
+    .panel.panel-default
+      .panel-body
+        p = comment.body
+        - if current_user.try(:author_of?, comment)  
+          =< link_to 'edit', '', class: 'edit-comment-link btn btn-xs btn-default', data: { comment_id: comment.id }
+          =< link_to '[x]', comment_path(comment), method: :delete, remote: true, data: {confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?'))}, class: "btn btn-xs btn-danger"
+          = render 'comments/edit', comment: comment

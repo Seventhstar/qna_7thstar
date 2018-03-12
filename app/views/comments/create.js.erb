@@ -1,3 +1,7 @@
-$('input#comment_body').val('');
-$('.question_comments>ul').append("<%= j render @comment %>");
-$('.errors').html("<%= j render 'shared/errors', item: @comment %>");
+$('span.<%= @commentable_id %>_errors').empty();
+<% if @comment.errors.any? %>
+  $('span.<%= @commentable_id %>_errors').html("<%= j render 'shared/errors', item: @comment %>");
+<% else %>
+  $('ul.<%= @commentable_id %>').append("<%= j render @comment %>");
+  $('#<%= @commentable_id %> #comment_body').val('');
+<% end %>

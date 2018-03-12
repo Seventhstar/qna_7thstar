@@ -65,8 +65,6 @@ gem 'jquery-rails'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
-gem 'mustache-js-rails'
-
 gem 'skim'
 gem 'gon'
 

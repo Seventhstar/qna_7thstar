@@ -1,0 +1,63 @@
+  li id="answer_#{@id}" class="well well-compact"
+    p.glyphicon
+    '
+    = @body
+    - if gon.current_user.id && @user_id == gon.current_user.id
+      '
+      a.edit-answer-link.btn.btn-xs.btn-default data-answer-id="#{@id}" href="#" edit
+      '      
+      a.btn.btn-xs.btn-danger data-remote="true" data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/answers/#{@id}" [x]
+
+      form.edit_answer id="edit-answer-#{@id}" action="/answers/#{@id}" data-remote="true" method="post" accept-charset="UTF-8" style="display: none;"
+        input name="utf8" type="hidden" value="✓"
+        input type="hidden" name="_method" value="patch"
+        label for="answer_body_#{@id}" Answer
+        textarea name="answer[body]" id="answer_body_#{@id}" =@body
+        input type="submit" name="commit" value="Save" data-disable-with="Save"
+    - if @user_id != gon.current_user.id
+      '
+      a.vote-link data-value="1" data-votable-id="#{@id}" data-votable-type="Answer" data-remote="true" data-method="post" href="/answers/#{@id}/vote_up" Up
+      '
+      a.reset-vote-link data-votable-id="#{@id}" data-votable-type="Answer" style="display: none" data-remote="true" data-method="post" href="/answers/#{@id}/reset" Reset
+      '
+      a.vote-link data-value="-1" data-votable-id="#{@id}" data-votable-type="Answer" data-remote="true" data-method="post" href="/answers/#{@id}/vote_down" Down
+    p 
+      ="Rate:"
+      span.rate 0
+
+    - if gon.current_user.id == gon.question_author_id
+      a.set-best-answer.btn.btn-xs.btn-info href="/answers/#{@id}/set_best" data-answer-id="#{@id}" set best
+    
+    - if @attachments.length > 0
+      h5 Answer attachments:
+      ul
+        - $.each @attachments, (index, a)=>
+          li id="attachment_#{a.id}"
+            a href="#{a.file.url}" = a.file.url
+            - if gon.current_user.id && @user_id == gon.current_user.id
+              '
+              a.btn.btn-xs.btn-danger data-confirm="Are you sure?" data-remote="true" data-method="delete" data-attachment-id="#{a.id}" href="/attachments/#{a.id}" remove file
+
+    h4 Comments
+    .container._comments
+      ul class="Answer_#{@id}" 
+      span class="Answer_#{@id}_errors"
+      a.add-comment.btn.btn-xs.btn-default data-commentable-id="Answer_#{@id}" href="" add comment
+      form.new_comment id="Answer_#{@id}" accept-charset="UTF-8" style="display: none;" action="/answers/#{@id}/comments" data-remote="true" method="post"
+        .form-group
+          .field
+            label.control-label.col-lg-2 New comment
+            .col-lg-10
+              input name="utf8" type="hidden" value="✓"
+              textarea.form-control name="comment[body]" rows="5" id="comment_body"
+              input type="hidden" name="comment[type]" value="Answer"
+        .actions
+          .col-lg-offset-2.col-lg-10
+            input.btn.btn-primary type="submit" name="commit" value="Create Comment" data-disable-with="Create Comment"
+
+
+
+
+
+    /     = render answer.comments.order(:created_at), item: answer
+    /   = render 'comments/form', commentable: answer
