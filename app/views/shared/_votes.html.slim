@@ -1,4 +1,4 @@
-- if current_user && !current_user.try(:author_of?,obj)
+- if current_user && !current_user&.author_of?(obj)
   - visible = !obj.has_vote_by?(current_user)
   =< vote_link(obj,'Up',1,visible)
   =< vote_link(obj,'Reset',nil,!visible)

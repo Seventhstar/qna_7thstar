@@ -12,7 +12,7 @@ feature 'Create comment for answer', %q{
   given! (:answer) { create(:answer, question: question, user: user) }
 
   let(:answer_comment) { 'New question comment' }
-  let(:first_answer) { '.li_answer_'+answer.id.to_s }
+  let(:first_answer) { ".li_answer_#{answer.id}" }
 
   scenario 'Auth user add comment for answer', js: true do
     sign_in(user)
@@ -78,7 +78,7 @@ feature 'Create comment for answer', %q{
       Capybara.using_session('guest') do
         within '.answers' do
           expect(page).to have_content answer_comment
-          save_and_open_page
+          #save_and_open_page
         end
       end
 

@@ -72,7 +72,7 @@ class AnswersController < ApplicationController
     def post_answer
       return if @answer.errors.any?
       ActionCable.server.broadcast(
-        'answers_'+@question.id.to_s, 
+        "answers_#{@question.id.to_s}", 
         @answer.to_json(include: [:attachments, :user], methods: :rating))
     end
 

@@ -2,11 +2,7 @@ comments_channel = ->
   if gon.question_id
     App.comment = App.cable.subscriptions.create "CommentChannel",
       connected: ->
-        # alert "e"
         @perform 'follow', question_id: gon.question_id
-
-      disconnected: ->
-        # Called when the subscription has been terminated by the server
 
       received: (data) ->
         comment = $.parseJSON(data)

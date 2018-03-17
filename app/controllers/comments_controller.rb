@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
 
   after_action :post_comment, only: :create
 
-  respond_to :js, :html
+  respond_to :js, :json, :html
 
   def index
   end
@@ -52,16 +52,7 @@ class CommentsController < ApplicationController
     def post_comment
       return if @commentable.errors.any?
       json = @comment.to_json(include: [:attachments, :commentable, :user])
-      # json.comment = @comment
-      ActionCable.server.broadcast(
-        'comments_' + get_question_id.to_s, json)
+      ActionCable.server.broadcast("comments_#{@comment.question_id}", json)
     end
 
-    def get_question_id
-      if @commentable.class == Question
-        @commentable.id
-      elsif @commentable.class == Answer
-        @commentable.question_id
-      end
-    end
 end
