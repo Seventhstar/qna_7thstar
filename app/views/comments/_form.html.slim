@@ -1,5 +1,5 @@
 - if current_user
-  - id = [commentable.class, commentable.id].join('_')
+  - id = [commentable.class.name.downcase, commentable.id].join('_')
   =< link_to 'add comment', '', class: 'add-comment btn btn-xs btn-default', data: { commentable_id: id }
   = form_for [commentable, Comment.new], remote: true, \
               html: { id: id, style: "display: none;"} do |f|
@@ -14,7 +14,7 @@
         label.control-label.col-lg-2 for="question_title" New comment
         .col-lg-10
           = f.text_area :body, rows: 5, class: 'form-control'
-          = f.hidden_field :type, value: commentable.class.name
+          = f.hidden_field :type, value: commentable.class.name.downcase
     .actions
       .col-lg-offset-2.col-lg-10
         = f.submit nil, class: 'btn btn-primary'

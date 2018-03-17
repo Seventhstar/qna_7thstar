@@ -26,8 +26,8 @@
         = render answer.attachments, item: answer
     h4 Comments
     .container._comments
-      ul class="Answer_#{answer.id}" 
+      ul class="answer_#{answer.id}" 
         = render answer.comments.order(:created_at), item: answer
-      span class="Answer_#{answer.id}_errors"
+      span class="answer_#{answer.id}_errors"
       = render 'comments/form', commentable: answer
       

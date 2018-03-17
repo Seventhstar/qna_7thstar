@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
 
   after_action :post_comment, only: :create
 
-  respond_to :js, :json, :html
+  respond_to :js, :html
 
   def index
   end
@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @commentable_id = [@commentable.class.name, @commentable.id.to_s].join('_')
+    @commentable_id = [@commentable.class.name.downcase, @commentable.id.to_s].join('_')
     respond_with(@comment = @commentable.comments.create(comment_params.merge(user: current_user)))
   end
 

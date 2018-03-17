@@ -26,9 +26,9 @@ h4 Question attachments:
 
 h3 Comments
 .container._comments.question_comments
-  ul class="Question_#{@question.id}"
+  ul class="question_#{@question.id}"
     = render @question.comments.order(:created_at), item: @question
-  span class="Question_#{@question.id}_errors"
+  span class="question_#{@question.id}_errors"
   = render 'comments/form', commentable: @question
 
 h2 Answers
