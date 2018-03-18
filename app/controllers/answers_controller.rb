@@ -1,8 +1,10 @@
 class AnswersController < ApplicationController
   include Votes
   before_action :authenticate_user!
-  before_action :load_question, only: [:create,:new]
+  before_action :load_question, only: [:create, :new]
   before_action :load_answer, only: [:edit, :update, :destroy, :set_best]
+
+  after_action :post_answer, only: :create
 
   def edit
   end
@@ -55,16 +57,23 @@ class AnswersController < ApplicationController
 
   private
 
-  def load_question
-    @question = Question.find(params[:question_id])
-  end
+    def load_question
+      @question = Question.find(params[:question_id])
+    end
 
-  def load_answer
-    @answer = Answer.find(params[:id])
-  end
+    def load_answer
+      @answer = Answer.find(params[:id])
+    end
 
-  def answer_params
-    params.require(:answer).permit(:body, attachments_attributes: [:id, :file, :_destroy])
-  end
+    def answer_params
+      params.require(:answer).permit(:body, attachments_attributes: [:id, :file, :_destroy])
+    end
+
+    def post_answer
+      return if @answer.errors.any?
+      ActionCable.server.broadcast(
+        "answers_#{@question.id.to_s}", 
+        @answer.to_json(include: [:attachments, :user], methods: :rating))
+    end
 
 end

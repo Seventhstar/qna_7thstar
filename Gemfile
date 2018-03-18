@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', require: 'bcrypt'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -44,9 +45,14 @@ group :development, :test do
   else
     gem 'capybara-webkit'
   end
+gem "better_errors"
+gem 'byebug'
+gem "binding_of_caller"
 gem 'rspec-rails'
 gem 'factory_girl_rails'
 end
+
+
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
@@ -60,7 +66,9 @@ gem 'jquery-rails'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
-gem 'mustache-js-rails'
+gem 'skim'
+gem 'gon'
+
 
 group :test do
   gem 'launchy'

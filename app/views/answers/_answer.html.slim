@@ -1,12 +1,12 @@
 - if answer.persisted?
-  li id="answer_#{answer.id}" class="well well-compact"
+  li id="answer_#{answer.id}" class="well well-compact" class="li_answer_#{answer.id}"
     - if answer.best?
       p.glyphicon.glyphicon-ok 
     - else
       p.glyphicon
     '
     = answer.body
-    - if current_user.try(:author_of?,answer)
+    - if current_user.try :author_of?, answer
       
       =< link_to 'edit', '', class: 'edit-answer-link btn btn-xs btn-default', data: { answer_id: answer.id }
       =< link_to '[x]', answer_path(answer), method: :delete, remote: true, data: {confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?'))}, class: "btn btn-xs btn-danger"
@@ -24,4 +24,10 @@
       h5 Answer attachments:
       ul
         = render answer.attachments, item: answer
+    h4 Comments
+    .container._comments
+      ul class="answer_#{answer.id}" 
+        = render answer.comments.order(:created_at), item: answer
+      span class="answer_#{answer.id}_errors"
+      = render 'comments/form', commentable: answer
       

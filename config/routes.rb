@@ -14,17 +14,21 @@ Rails.application.routes.draw do
     end
   end
 
+  concern :commentable do
+    resources :comments, only: [:create]
+  end
+
   resources :attachments, only: [:destroy,:index]
+  resources :comments, only: [:update, :destroy] 
 
   devise_for :user
-  resources :questions, concerns: [:votes] do
-    resources :answers, shallow: true, concerns: [:votes] do
+  resources :questions, concerns: [:votes, :commentable] do
+    resources :answers, shallow: true, concerns: [:votes, :commentable] do
       patch :set_best, on: :member
     end
   end
 
-
-
   root to: 'questions#index'
+  mount ActionCable.server => '/cable'
 
 end

@@ -3,6 +3,7 @@ class Answer < ApplicationRecord
   include Votable
   belongs_to :user
   belongs_to :question
+  has_many :comments, as: :commentable, dependent: :destroy
   validates :body, presence: true
 
   default_scope { order(best: :desc, created_at: :asc) }

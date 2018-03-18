@@ -1,0 +1,17 @@
+li.comment id="comment_#{@id}"
+  .panel.panel-default
+    .panel-body 
+      p=@body
+      - cur_user = gon['current_user']
+      - if cur_user && cur_user.id == @user_id
+        '
+        a.edit-comment-link.btn.btn-xs.btn-default data-comment-id="#{@id}" href="" edit 
+        '
+        a.btn.btn-xs.btn-danger data-confirm="Are you sure?" data-remote="true" rel="nofollow" data-method="delete" href="/comments/#{@id}" [x]
+      form id="edit-comment-#{@id}" style="display: none;" class="edit_comment" action="/comments/#{@id}" accept-charset="UTF-8" data-remote="true" method="post"
+        input name="utf8" type="hidden" value="✓"
+        input type="hidden" name="_method" value="patch"
+        label for="comment_body" Comment:
+        textarea name="comment[body]" id="comment_body" =@body
+        input type="submit" name="commit" value="Save" data-disable-with="Save"
+

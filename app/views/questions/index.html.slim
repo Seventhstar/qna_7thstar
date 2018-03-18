@@ -2,7 +2,8 @@
 .page-header.questions
   h1=t '.title', default: model_class.model_name.human.pluralize.titleize
   .errors
-table.table.table-striped
+
+table.table.table-striped.table-questions
   thead
     tr
       th= model_class.human_attribute_name(:id)
