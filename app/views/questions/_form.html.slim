@@ -15,6 +15,7 @@
       '
       = link_to t('.cancel',default: t("helpers.links.cancel")), questions_path,class: 'btn'
   .question_new_attachment    
+    .errors
     = render 'shared/attachment_form', f: f
 
    

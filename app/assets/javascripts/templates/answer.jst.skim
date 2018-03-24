@@ -31,13 +31,13 @@
     
     - if @attachments.length > 0
       h5 Answer attachments:
-      ul
+      ul.answer_attachments
         - $.each @attachments, (index, a)=>
           li id="attachment_#{a.id}"
             a href="#{a.file.url}" = a.file.url
             - if cur_user && cur_user.id && @user_id == cur_user.id
               '
-              a.btn.btn-xs.btn-danger data-confirm="Are you sure?" data-remote="true" data-method="delete" data-attachment-id="#{a.id}" href="/attachments/#{a.id}" remove file
+              a.btn.btn-xs.btn-danger.delete-attachment-link data-confirm="Are you sure?" data-attachment-id="#{a.id}" data-owner="answer" href="" remove file
 
     h4 Comments
     .container._comments
