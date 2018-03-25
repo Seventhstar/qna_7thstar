@@ -16,6 +16,7 @@ feature 'Delete question attachment', %q{
     within '.question_attachments' do
       click_on 'remove file'
       page.driver.browser.switch_to.alert.accept
+      puts "attachment.file.identifier #{attachment.file.identifier} file #{attachment.file}" 
       expect(page).to_not have_content attachment.file.identifier
     end
   end

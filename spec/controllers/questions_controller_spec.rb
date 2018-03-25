@@ -110,10 +110,6 @@ RSpec.describe QuestionsController, type: :controller do
         question.reload
         expect(question.title).not_to eq 'new title'
       end
-
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
-      end
     end
   end
 
@@ -140,8 +136,9 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 're-renders edit view' do
-        delete :destroy, params: {id: question}
-        expect(response).to redirect_to questions_path
+        # delete :destroy, params: {id: question}
+        # expect(response).to redirect_to questions_path
+        expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
       end
 
     end

@@ -2,59 +2,56 @@ class QuestionsController < ApplicationController
   include Votes
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
-
   after_action :post_question, only: :create
+  before_action :build_comment, only: [:show]
+
+  respond_to :html
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @commentable = @question
-    @comment = Comment.new
     gon.question_id = @question.id
     gon.question_author_id = @question.user_id
+    respond_with(@question)
   end
 
   def new
-    @question = Question.new
-    # @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
   def edit
-
-    # @question.attachments.build
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-    if @question.save
-      redirect_to @question
-    else
-      render :new
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      flash[:notice] = 'error.'
-      render :edit
+    if current_user.author_of?(@question)
+      @question.update(question_params)
+      respond_with(@question)
     end
   end
 
   def destroy
-    if current_user.author_of? @question
-      @question.destroy
-      flash[:notice] = 'Your question was successfully deleted.'
+    if current_user.author_of?(@question)
+      respond_with(@question.destroy!)
     end
-    redirect_to questions_path
   end
 
   private
+    def build_comment
+      @comment = @question.comments.build
+    end
+
     def load_question
       @question = Question.find(params[:id])
+    end
+ 
+    def build_answer
+      @answer = @question.answers.build
     end
 
     def question_params
