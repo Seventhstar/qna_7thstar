@@ -29,10 +29,10 @@ module Votes
 
   def reset
    respond_with(@vote.destroy) do |format|
-    format.json do
-      render json: { vote: @vote.id, votable: @votable, rating: @votable.rating }
+      format.json do
+        render json: { vote: @vote.id, votable: @votable, rating: @votable.rating }
+      end
     end
-  end
   end
 
   private
