@@ -5,7 +5,7 @@ RSpec.describe Vote, type: :model do
   it { should belong_to :votable }
 
   it do
-     subject.user = FactoryGirl.build(:user)
+     subject.user = FactoryBot.build(:user)
      is_expected.to validate_uniqueness_of(:user_id).scoped_to(:votable_id, :votable_type)
   end
 

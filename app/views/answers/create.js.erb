@@ -1,4 +1,6 @@
-$('input#answer_body').val('');
-$('.answers>ul').append("<%= j render @answer %>");
-$('.errors').html("<%= j render 'shared/errors', item: @answer %>");
-$('.remove_fields').click();
+<% if @answer.errors.present? %>
+  $('.answers .errors').html("<%= j render 'shared/errors', item: @answer %>");
+<% else %>
+  $('input#answer_body').val('');
+  $('.answers>ul').append("<%= j render @answer %>");
+<% end %>

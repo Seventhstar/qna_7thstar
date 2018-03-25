@@ -2,34 +2,24 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_commentable, only: [:create, :new]
   before_action :load_comment, only: [:edit, :update, :destroy]
-
   after_action :post_comment, only: :create
 
-  respond_to :js, :html
-
-  def index
-  end
-
-  def new
-  end
-
-  def show
-  end
+  respond_to :js
 
   def create
-    @commentable_id = [@commentable.class.name.downcase, @commentable.id.to_s].join('_')
     respond_with(@comment = @commentable.comments.create(comment_params.merge(user: current_user)))
   end
 
-  def update
-    @comment.update(comment_params)
-    @commentable = @comment.commentable
+  def update                            
+    if current_user.author_of?(@question)
+      @comment.update(comment_params)
+      respond_with(@question)
+    end
   end
 
   def destroy
-    @commentable = @comment.commentable
     if current_user.author_of? @comment
-      @comment.destroy
+      respond_with(@comment.destroy)
     end
   end
 

@@ -1,17 +1,4 @@
 ready_answer = ->
-  $('form.new_answer').on 'ajax:success',(e, data, status, xhr) ->
-    answer = $.parseJSON(xhr.responseText)
-    $('.answers>ul').append JST['templates/answer'](answer)
-    $('input#answer_body').val('')
-    $('.remove_fields').click()
-    return
-  .on 'ajax:error', (e, xhr, status, error) ->
-    errors = $.parseJSON(xhr.responseText)
-    $.each errors, (index, value) ->
-      $('.answers .errors').append('<p>'+value+'</p>')
-      return
-    return
-
   $('.answers').on 'click', '.edit-answer-link', (e) ->
     e.preventDefault()
     $(this).hide()
@@ -31,7 +18,7 @@ ready_answer = ->
         id: answer_id
         question_id: question_id
       success: (data) ->
-        message = data.message
+        message = "You've set the best answer"
         li_answer_id = 'li#answer_' + answer_id
         $('.answers p.notice').html(message);
         $('.answers p.glyphicon').removeClass('glyphicon-ok');

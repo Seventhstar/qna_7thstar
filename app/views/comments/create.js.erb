@@ -1,3 +1,4 @@
+<% @commentable_id = [@commentable.class.name.downcase, @commentable.id.to_s].join('_') %>
 $('span.<%= @commentable_id %>_errors').empty();
 <% if @comment.errors.any? %>
   $('span.<%= @commentable_id %>_errors').html("<%= j render 'shared/errors', item: @comment %>");

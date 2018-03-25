@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   
   sequence :body do |n|
     "Answer #{n} text"
