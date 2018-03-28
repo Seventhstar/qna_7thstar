@@ -21,7 +21,15 @@ Rails.application.routes.draw do
   resources :attachments, only: [:destroy,:index]
   resources :comments, only: [:update, :destroy] 
 
-  devise_for :user
+  devise_for :user, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+  
+  devise_scope :user do
+    post '/register' => 'omniauth_callbacks#register'
+  end
+  
+  get '/user/auth/:provider/callback', to: 'omniauth_callbacks#register'
+  get '/auth/:provider/callback', to: 'omniauth_callbacks#register'
+  
   resources :questions, concerns: [:votes, :commentable] do
     resources :answers, shallow: true, concerns: [:votes, :commentable] do
       patch :set_best, on: :member

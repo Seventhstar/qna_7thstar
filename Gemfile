@@ -51,6 +51,8 @@ gem "binding_of_caller"
 gem 'rspec-rails'
 #gem 'factory_girl_rails'
 gem "factory_bot_rails"
+gem 'letter_opener'
+gem 'capybara-email'
 end
 
 
@@ -80,3 +82,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-github'
