@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :gon_user
 
   respond_to :html
+  
 
   private  
     def gon_user

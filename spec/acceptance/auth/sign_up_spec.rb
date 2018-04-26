@@ -1,4 +1,5 @@
 require_relative '../../acceptance_helper'
+require 'capybara/email/rspec'
  
 feature 'New User can sign up on the website', %q{
   In order to ask questions,
@@ -10,12 +11,15 @@ feature 'New User can sign up on the website', %q{
     fill_in 'Email', with: 'new_user2@test.info'
     fill_in 'Password', with: '123456'
     fill_in 'Password confirmation', with: '123456'
-    click_on('Sign me up', match: :smart)
-    # page.find(:button, 'Sign up').click
-    # save_and_open_page
+    
+    within '.actions' do
+      page.find(:button, 'Sign up').click
+    end
 
+    open_email('new_user2@test.info')
+    current_email.click_link 'Confirm my account'
 
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
-    expect(current_path).to eq root_path
+    expect(page).to have_content 'Your email address has been successfully confirmed.'
+
   end
 end
