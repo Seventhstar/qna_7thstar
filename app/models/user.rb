@@ -20,15 +20,14 @@ class User < ApplicationRecord
     return authorization.user if authorization
 
     email = auth.info.try(:[], :email)
-    user = User.where(email: email).first
+    password = Devise.friendly_token[0, 20]
 
-    if user
-      user.create_authorization(auth)
-    elsif email
+    if email
+      user = User.where(email: email).first  
+      user = User.create!(email: email, password: password, password_confirmation: password) if !user
+    end
 
-      password = Devise.friendly_token[0, 20]
-      user = User.create!(email: email, password: password, password_confirmation: password)
-
+    if user 
       user.create_authorization(auth)
     else
       password = Devise.friendly_token[0, 20]
@@ -36,10 +35,6 @@ class User < ApplicationRecord
     end
 
     user
-  end
-
-  def confirmation(token)
-    
   end
 
   def create_authorization(auth)

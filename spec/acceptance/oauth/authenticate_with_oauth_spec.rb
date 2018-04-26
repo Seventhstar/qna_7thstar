@@ -34,19 +34,36 @@ feature 'Authenticate with oauth', %q{
       expect(page).to have_content 'Successfully authenticated from twitter account.'
     end
 
-    scenario 'Returning user logs in with twitter' do
-      auth = mock_auth_hash(:twitter)
-      user.update!(email: 'twitter@test.ru')
+    scenario 'can sign in from twitter account second time' do
+
+      auth = mock_twitter_hash
       authorization = create(:authorization, user: user, provider: auth.provider, uid: auth.uid)
 
-      visit new_user_session_path
-      click_on 'Sign in with Twitter'
+      visit root_path
 
+      within '.navbar-right' do
+        page.find(:link, 'Sign in').click
+      end
+
+      page.find(:link, 'Sign in with Twitter').click
       expect(page).to have_content 'Successfully authenticated from twitter account.'
+    end
+
+    scenario 'user not logs in if not confirm email' do
+      clear_emails
+      mock_twitter_hash
+      visit new_user_session_path
+
+      click_on 'Sign in with Twitter'
+      fill_in 'auth_hash_info_email', with: 'twitter_1@test.com'
+      click_on 'Add'
+
+      expect(page).to have_content 'You have to confirm your email address before continuing.'
+      
     end
   end
 
-    describe 'Github' do
+  describe 'Github' do
     scenario 'New user logs in with github' do
       clear_emails
       auth = mock_auth_hash(:github)

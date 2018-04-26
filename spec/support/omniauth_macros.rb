@@ -14,4 +14,17 @@ module OmniauthMacros
       }
     }.merge(provider == :github ? {info: {email: 'git@hub.ru'}} : {}))
   end
+
+
+  def mock_twitter_hash
+    OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new(
+        {
+            provider: 'twitter',
+            uid: '12345',
+            email: 'quwhduq@test.ru',
+	    confirmed_at: Date.today,
+            info: {}
+        })
+  end
+
 end
