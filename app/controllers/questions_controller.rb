@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   after_action :post_question, only: :create
   before_action :build_comment, only: [:show]
 
-  respond_to :html
+  respond_to :html, :json
 
   def index
     respond_with(@questions = Question.all)
