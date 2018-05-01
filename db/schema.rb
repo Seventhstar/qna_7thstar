@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180326061222) do
+ActiveRecord::Schema.define(version: 20180501061456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,15 +57,6 @@ ActiveRecord::Schema.define(version: 20180326061222) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "identities", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "provider"
-    t.string "uid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_identities_on_user_id"
-  end
-
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -91,6 +82,7 @@ ActiveRecord::Schema.define(version: 20180326061222) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.boolean "admin", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -112,7 +104,6 @@ ActiveRecord::Schema.define(version: 20180326061222) do
   add_foreign_key "answers", "users"
   add_foreign_key "authorizations", "users"
   add_foreign_key "comments", "users"
-  add_foreign_key "identities", "users"
   add_foreign_key "questions", "users"
   add_foreign_key "votes", "users"
 end

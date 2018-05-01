@@ -5,6 +5,8 @@ class QuestionsController < ApplicationController
   after_action :post_question, only: :create
   before_action :build_comment, only: [:show]
 
+  authorize_resource 
+
   respond_to :html, :json
 
   def index
@@ -29,16 +31,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@question)
-      @question.update(question_params)
-      respond_with(@question)
-    end
+    @question.update(question_params)
+    respond_with(@question)
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      respond_with(@question.destroy!)
-    end
+    respond_with(@question.destroy!)
   end
 
   private

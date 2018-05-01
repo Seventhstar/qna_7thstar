@@ -6,6 +6,8 @@ class AnswersController < ApplicationController
 
   after_action :post_answer, only: :create
 
+  authorize_resource
+
   respond_to :js
   respond_to :json, only: [:set_best]
 
