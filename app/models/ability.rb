@@ -43,5 +43,6 @@ class Ability
     end
 
     can :reset, Vote, user_id: user.id
+    can :manage, User
   end
 end
