@@ -11,7 +11,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      format.json { head :forbidden, content_type: 'text/html' }
+      # format.json { head :forbidden, content_type: 'text/html' }
+      format.json { render json: [exception.message], status: 403 }
     end
   end
 

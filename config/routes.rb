@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  
+  use_doorkeeper
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: :index do
+        get :me, on: :collection
+      end
+    end
+  end
 
   devise_scope :user do
     get 'sign_up', :to => 'devise/registrations#new'

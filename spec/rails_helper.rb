@@ -45,6 +45,7 @@ RSpec.configure do |config|
   config.extend ControllerMacros, type: :controller
   config.include AcceptanceHelper, type: :feature
   config.include OmniauthMacros
+  config.include JsonSpec::Helpers
   
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
