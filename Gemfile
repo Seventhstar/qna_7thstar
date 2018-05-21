@@ -49,7 +49,6 @@ gem "better_errors"
 gem 'byebug'
 gem "binding_of_caller"
 gem 'rspec-rails'
-#gem 'factory_girl_rails'
 gem "factory_bot_rails"
 gem 'letter_opener'
 gem 'capybara-email'
