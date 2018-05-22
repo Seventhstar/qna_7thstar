@@ -7,55 +7,14 @@ feature 'Vote for answer', %q{
 } do
 
   given(:user) { create(:user) }
+  given!(:other_user) { create(:user) }
+
   given!(:answer) { create(:answer) }
+  given!(:owner_class) { 'answers' }
 
-  scenario 'Authenticated user (not author) votes for a answer', js: true do
-    sign_in(user)
+  it_behaves_like "Votable"
+
+  def visit_path
     visit question_path(answer.question)
-
-    within '.answers' do
-      click_on 'Up'
-      expect(page).to have_content 'Rate: 1'
-      expect(page).to have_content 'Reset'
-      expect(page).to_not have_content 'Up'
-      expect(page).to_not have_content 'Down'
-
-      click_on 'Reset'
-      expect(page).to_not have_content 'Reset'
-      expect(page).to have_content 'Rate: 0'
-      expect(page).to have_content 'Up'
-      expect(page).to have_content 'Down'
-
-      click_on 'Down'
-      expect(page).to have_content 'Rate: -1'
-      expect(page).to have_content 'Reset'
-      expect(page).to_not have_content 'Up'
-      expect(page).to_not have_content 'Down'
-    end
   end
-
-  scenario 'Author tries to vote' do
-    sign_in(answer.user)
-    visit question_path(answer.question)
-
-    within '.answers' do
-      expect(page).to have_content 'Rate: 0'
-      expect(page).to_not have_content 'Up'
-      expect(page).to_not have_content 'Down'
-      expect(page).to_not have_content 'Reset'
-    end
-  end
-
-  scenario 'Non-auth user tries to vote' do
-    visit question_path(answer.question)
-
-    within '.answers' do
-      expect(page).to have_content 'Rate: 0'
-      expect(page).to_not have_content 'Up'
-      expect(page).to_not have_content 'Down'
-      expect(page).to_not have_content 'Reset'
-    end
-  end
-
-
 end
