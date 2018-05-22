@@ -43,8 +43,11 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    sign_in_user
-    before {get :edit, params: {id: question}}
+    before do
+      sign_in(question.user)
+      get :edit, params: { id: question }
+    end
+    # beforeore {get :edit, params: {id: question}}
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq question
     end
@@ -104,7 +107,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'invalid attributes' do
-      sign_in_user
       before {patch :update, params: {id: question, question: {title: 'new title', body: ''}}}
       it 'does not change question attributes' do
         question.reload
@@ -130,17 +132,9 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'auth.user tries to delete foreign question' do
-      sign_in_user
       it 'tries to delete question' do
         expect {delete :destroy, params: {id: question}}.to_not change(Question, :count)  
       end
-
-      it 're-renders edit view' do
-        # delete :destroy, params: {id: question}
-        # expect(response).to redirect_to questions_path
-        expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
-      end
-
     end
 
   end

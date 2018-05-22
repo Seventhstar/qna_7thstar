@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       # format.json { head :forbidden, content_type: 'text/html' }
       format.json { render json: [exception.message], status: 403 }
+      #format.js   { head :forbidden, content_type: 'text/html' }
     end
   end
 

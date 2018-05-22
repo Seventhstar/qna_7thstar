@@ -61,7 +61,6 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'user tries to delete foreign answer' do
-      sign_in_user
       it "doesn't delete foreign answer" do
         expect {delete :destroy, params: {id: answer, format: :js}}.not_to change(Answer, :count)
       end
